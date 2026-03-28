@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Login</title>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f6f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            width: 350px;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+        }
+
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+        }
+
+        .message {
+            color: green;
+        }
+
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Login</h2>
+
+    <!-- Success or info message -->
+    <p class="message" th:if="${message}" th:text="${message}"></p>
+
+    <!-- Error message from Spring Security -->
+    <p class="error" th:if="${param.error}">
+        Invalid email or password
+    </p>
+
+    <!-- Logout message -->
+    <p class="message" th:if="${param.logout}">
+        Logged out successfully
+    </p>
+
+    <form th:action="${loginUrl}" method="post">
+        <input type="email" name="username" placeholder="Email" required />
+        <input type="password" name="password" placeholder="Password" required />
+        <button type="submit">Login</button>
+    </form>
+
+    <p style="margin-top:15px;">
+        Don’t have an account?
+        <a th:href="${registerUrl}">Register</a>
+    </p>
+</div>
+
+</body>
+</html>

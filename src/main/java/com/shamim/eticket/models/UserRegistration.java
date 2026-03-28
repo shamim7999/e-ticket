@@ -1,0 +1,29 @@
+package com.shamim.eticket.models;
+import com.shamim.eticket.enums.Role;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class UserRegistration {
+
+    @NotBlank(message = "Name is required")
+    private String name;
+
+    @Email(message = "Email should be valid")
+    @NotBlank(message = "Email is required")
+    private String email;
+
+    @NotBlank(message = "Password is required")
+    @Size(min = 6, message = "Password must be at least 6 characters")
+    private String password;
+
+    private Role role = Role.USER;
+
+    // Optional: confirm password for validation
+    // @NotBlank(message = "Confirm password is required")
+    // private String confirmPassword;
+}
