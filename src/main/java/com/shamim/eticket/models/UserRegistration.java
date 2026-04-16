@@ -21,7 +21,7 @@ public class UserRegistration {
     @Size(min = 6, message = "Password must be at least 6 characters")
     private String password;
 
-    private Role role = Role.USER;
+    private Role role = Role.ROLE_USER;
 
     // Optional: confirm password for validation
     // @NotBlank(message = "Confirm password is required")

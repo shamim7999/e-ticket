@@ -44,12 +44,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public String register(@ModelAttribute UserRegistration userRegistration, Model model) {
-        try {
-            authService.register(userRegistration);
-            return "redirect:" + AppUrl.LOGIN + "?message=Registration successful!";
-        } catch (Exception e) {
-            model.addAttribute("error", e.getMessage());
-            return "shared/register";
-        }
+        authService.register(userRegistration);
+        return "redirect:" + AppUrl.LOGIN + "?message=Registration successful!";
     }
 }

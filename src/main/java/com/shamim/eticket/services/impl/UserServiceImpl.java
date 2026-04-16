@@ -24,11 +24,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDto> getAllCustomers() {
-        return userRepository.findByRole(Role.USER);
+        return userRepository.findByRole(Role.ROLE_USER);
     }
 
     @Override
     public List<UserDto> getAllAdmins() {
-        return userRepository.findByRole(Role.ADMIN);
+        return userRepository.findByRole(Role.ROLE_ADMIN);
     }
 }

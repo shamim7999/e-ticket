@@ -20,7 +20,7 @@ public class AuthServiceImpl implements AuthService {
                 .name(userRegistration.getName())
                 .email(userRegistration.getEmail())
                 .password(userRegistration.getPassword()) // ENCODE PASSWORD
-                .role(userRegistration.getRole() != null ? userRegistration.getRole() : Role.USER) // DEFAULT CUSTOMER
+                .role(userRegistration.getRole() != null ? userRegistration.getRole() : Role.ROLE_USER) // DEFAULT CUSTOMER
                 .build();
 
         return userRepository.save(user); // SAVE ENTITY
