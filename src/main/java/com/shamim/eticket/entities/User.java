@@ -1,7 +1,8 @@
 package com.shamim.eticket.entities;
 
-import com.shamim.eticket.entities.base.BaseEntity;
+import com.shamim.eticket.entities.base.Auditable;
 import com.shamim.eticket.enums.Role;
+import com.shamim.eticket.global.interfaces.SelfAuditable;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -18,7 +19,7 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "users")
-public class User extends BaseEntity implements UserDetails {
+public class User extends Auditable implements UserDetails, SelfAuditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,8 +38,20 @@ public class User extends BaseEntity implements UserDetails {
     @Column(nullable = false)
     private Role role;
 
-    @Column
-    private Boolean enabled;
+    @Column(nullable = false)
+    private Boolean enabled = true;
+
+    @PrePersist
+    public void prePersistUser() {
+        if (this.enabled == null) {
+            this.enabled = true;
+        }
+    }
+
+    @Override
+    public String getSelfAuditorIdentifier() {
+        return this.email;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

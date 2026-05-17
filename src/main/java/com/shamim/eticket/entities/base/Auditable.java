@@ -1,8 +1,10 @@
 package com.shamim.eticket.entities.base;
 
+import com.shamim.eticket.global.interfaces.SelfAuditable;
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.PrePersist;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedBy;
@@ -17,7 +19,7 @@ import java.time.LocalDateTime;
 @EntityListeners(AuditingEntityListener.class)
 @Getter
 @Setter
-public abstract class BaseEntity {
+public abstract class Auditable {
 
     @CreatedBy
     @Column(name = "created_by", updatable = false)
@@ -35,4 +37,21 @@ public abstract class BaseEntity {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    @PrePersist
+    public void onPrePersist() {
+        if ("SELF_REGISTRATION".equals(this.createdBy) || this.createdBy == null) {
+            // Check if this specific entity knows how to audit itself
+            if (this instanceof SelfAuditable selfAuditableEntity) {
+                String selfIdentifier = selfAuditableEntity.getSelfAuditorIdentifier();
+                if (selfIdentifier != null) {
+                    this.createdBy = selfIdentifier;
+                    this.updatedBy = selfIdentifier;
+                    return;
+                }
+            }
+            // Fallback for any other anonymous/system creations (like background tasks)
+            this.createdBy = "SYSTEM";
+            this.updatedBy = "SYSTEM";
+        }
+    }
 }
