@@ -1,0 +1,33 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: eticket-postgres
+    environment:
+      POSTGRES_DB: eticketdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: "Ss#01535"
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres", "-d", "eticketdb"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build: .
+    container_name: eticket-app
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/eticketdb
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: "Ss#01535"
+
+volumes:
+  pgdata:
