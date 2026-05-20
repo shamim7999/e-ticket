@@ -9,3 +9,4 @@ README.md
 *.log
 mvnw.cmd
 .env
+deploy.sh
