@@ -6,7 +6,7 @@ WORKDIR /build
 COPY .mvn/ .mvn/
 COPY mvnw .
 COPY pom.xml .
-COPY .env .
+
 RUN chmod +x mvnw
 
 RUN ./mvnw dependency:go-offline
