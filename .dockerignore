@@ -2,8 +2,10 @@ target
 .git
 .gitignore
 Dockerfile
-docker-compose.yml
+docker-compose-dev.yml
+docker-compose-prod.yml
 .idea
 README.md
 *.log
 mvnw.cmd
+.env
