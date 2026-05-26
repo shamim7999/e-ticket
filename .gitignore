@@ -34,7 +34,3 @@ build/
 
 ### Environment ###
 .env
-
-
-### gitpush bash file
-gitpush.sh
