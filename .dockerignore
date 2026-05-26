@@ -10,3 +10,4 @@ README.md
 mvnw.cmd
 .env
 deploy.sh
+gitpush.sh
