@@ -1,4 +1,4 @@
-name: Build and Push Docker Image
+name: Build Push and Deploy
 
 on:
   push:
@@ -18,7 +18,7 @@ jobs:
           distribution: temurin
           java-version: 21
 
-      - name: Build Spring Boot app (CLEAN)
+      - name: Build Spring Boot app
         run: mvn clean package -DskipTests
 
       - name: Set up Docker Buildx
@@ -37,3 +37,26 @@ jobs:
           push: true
           no-cache: true
           tags: shamim7999/e-ticket:latest
+
+      - name: Create SSH key
+        run: |
+          echo "${{ secrets.AWS_PEM_KEY }}" > key.pem
+          chmod 400 key.pem
+
+      - name: Deploy to EC2
+        run: |
+          ssh -o StrictHostKeyChecking=no \
+              -i key.pem \
+              ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
+
+            cd ~/e-ticket
+
+            docker compose -f docker-compose-prod.yml pull
+
+            docker compose -f docker-compose-prod.yml down
+
+            docker compose -f docker-compose-prod.yml up -d
+
+            docker image prune -f
+
+          EOF
