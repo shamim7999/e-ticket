@@ -39,6 +39,6 @@ jobs:
 
       - name: Run Ansible deploy playbook
         run: |
-          ansible-playbook ~/ansible/deploy.yml \
-            -i ~/ansible/inventory.ini \
+          ansible-playbook ~/Ansible/deploy/deploy.yaml \
+            -i ~/Ansible/deploy/inventory.ini \
             --extra-vars "IMAGE_TAG=${{ github.sha }}"
