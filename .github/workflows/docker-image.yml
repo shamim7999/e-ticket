@@ -19,6 +19,8 @@ jobs:
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
+        with:
+          driver: docker
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
@@ -34,3 +36,9 @@ jobs:
           ansible-playbook ~/custom-ansible-roles/deployer/deploy-playbook.yaml \
             -i ~/custom-ansible-roles/deployer/inventory.ini \
             --extra-vars "IMAGE_TAG=${{ github.sha }}"
+
+      - name: Cleanup
+        if: always()
+        run: |
+          docker image prune -f
+          docker builder prune -f
