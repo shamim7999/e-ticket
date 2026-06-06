@@ -9,7 +9,7 @@ COPY pom.xml .
 
 RUN chmod +x mvnw
 
-RUN --mount=type=cache,target=/root/.m2 ./mvnw dependency:go-offline
+RUN ./mvnw dependency:go-offline
 
 COPY src/ src/
 
