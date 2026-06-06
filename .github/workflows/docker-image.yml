@@ -30,6 +30,8 @@ jobs:
           tags: |
             shamim7999/e-ticket:${{ github.sha }}
             shamim7999/e-ticket:latest
+          no-cache: true
+        timeout-minutes: 15
 
       - name: Run Ansible deploy playbook
         run: |
