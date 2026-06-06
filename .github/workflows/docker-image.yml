@@ -30,7 +30,7 @@ jobs:
           tags: |
             shamim7999/e-ticket:${{ github.sha }}
             shamim7999/e-ticket:latest
-          no-cache: false
+          no-cache: true
           build-args: |
             BUILDKIT_INLINE_CACHE=1
         timeout-minutes: 15
